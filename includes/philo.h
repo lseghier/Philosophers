@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <sys/time.h>
 #include <limits.h>
+#include <errno.h>
 
 #define RST "\033[0m"
 #define RED "\033[1;31m"
@@ -18,6 +19,18 @@
 #define M "\033[1;35m"
 #define C "\033[1;36m"
 #define W "\033[1;37m"
+
+typedef enum e_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH,
+}	t_opcode;
+
 
 typedef pthread_mutex_t t_mtx;
 
@@ -56,7 +69,11 @@ typedef struct s_table
 // parse functions
 
 void	error_exit (const char *error);
-void parse_input (t_table table, char **av)
+void parse_input (t_table *table, char **av);
+
+//safe function
+
+void *safe_malloc(size_t byte);
 
 
 #endif
