@@ -13,6 +13,11 @@ int main (int ac, char **av)
 
 		dinner_start(&table);
 
+		//creer autant de thread que de philos
+		//pthread_create()
+		//creer un observateur
+		//join wait thread
+
 		free_all(&table);
 	}
 	else
