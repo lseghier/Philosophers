@@ -46,9 +46,10 @@ typedef struct s_philo
 	long	meal_counter;
 	bool	full;
 	long	last_meal_time;
-	t_fork	*left_fork;
-	t_fork	*right_fork;
+	t_fork	*first_fork;
+	t_fork	*second_fork;
 	pthread_t thread_id;
+	t_table *table;
 
 }		t_philo;
 
@@ -61,7 +62,7 @@ typedef struct s_table
 	long nbr_limit_meals;
 	long start_simulation; // time stamps from the start of simulation
 	bool end_simulation; // a philo dies or all philos full
-	t_fork *fork; // arr of forks
+	t_fork *forks; // arr of forks
 	t_philo *philos; // arr of philos
 }	t_table;
 
@@ -69,11 +70,13 @@ typedef struct s_table
 // parse functions
 
 void	error_exit (const char *error);
-void parse_input (t_table *table, char **av);
+void	parse_input (t_table *table, char **av);
 
-//safe function
+//safe functions
 
-void *safe_malloc(size_t byte);
+void	*safe_malloc(size_t byte);
+void	*safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
+void	safe_thread_handle (pthread_t *thread, void *(*foo)(void *), void *data, t_opcode opcode);
 
 
 #endif

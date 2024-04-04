@@ -9,7 +9,7 @@ int main (int ac, char **av)
 		//correct input
 		parse_input(&table, av); //OK
 
-		data_init(&table);
+		data_init(&table); //OK
 
 		dinner_start(&table);
 
