@@ -31,6 +31,22 @@ typedef enum e_opcode
 	DETACH,
 }	t_opcode;
 
+typedef enum e_philo_state
+{
+	THINKING,
+	EATING,
+	SLEEPING,
+	TAKE_FORK,
+	TAKE_SECOND_FORK,
+	DEAD,
+}	t_philo_state;
+
+typedef enum e_time_code
+{
+	SECONDS,
+	MILLISECONDS,
+	MICROSECONDS,
+}	t_time_code;
 
 typedef pthread_mutex_t t_mtx;
 
@@ -64,6 +80,7 @@ typedef struct s_table
 	bool end_simulation; // a philo dies or all philos full
 	bool all_threads_ready;
 	t_mtx *table_mutex; // avoid races while reading the table
+	t_mtx *write_mutex; 
 	t_fork *forks; // arr of forks
 	t_philo *philos; // arr of philos
 }	t_table;
@@ -80,5 +97,25 @@ void	*safe_malloc(size_t byte);
 void	*safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
 void	safe_thread_handle (pthread_t *thread, void *(*foo)(void *), void *data, t_opcode opcode);
 
+// getters and setters to have a code more readable
+
+void    set_bool (t_mtx *mutex, bool *var, bool value);
+bool    get_bool (t_mtx *mutex, bool *value);
+long   get_long (t_mtx *mutex, long *value);
+void set_long (t_mtx *mutex, long *value, long new_value);
+bool    simulation_finished (t_table *table);
+
+// synchronization functions
+
+void wait_all_thread(t_table *table);
+long gettime(t_time_code time_code);
+void precise_usleep(long usec, t_table *table);
+
+// init functions
+
+void init_data(t_table *table);
+
+// write function
+void write_status (t_philo_state status, t_philo *philo, bool debug);
 
 #endif
