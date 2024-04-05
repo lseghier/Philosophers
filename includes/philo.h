@@ -62,6 +62,8 @@ typedef struct s_table
 	long nbr_limit_meals;
 	long start_simulation; // time stamps from the start of simulation
 	bool end_simulation; // a philo dies or all philos full
+	bool all_threads_ready;
+	t_mtx *table_mutex; // avoid races while reading the table
 	t_fork *forks; // arr of forks
 	t_philo *philos; // arr of philos
 }	t_table;

@@ -38,7 +38,9 @@ void init_data(t_table *table)
 
     i = -1;
     table->end_simulation = false;
+    table->all_threads_ready = false;
     table->philos = safe_malloc(sizeof(t_philo) * table->philo_nbr);
+    safe_mutex_handle(&table->table_mutex, INIT);
     table->forks = safe_malloc(sizeof(t_fork) * table->philo_nbr);
 
     while (++i < table->philo_nbr)
