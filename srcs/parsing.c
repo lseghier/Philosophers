@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../includes/philo.h"
 
 static inline bool is_digit (char c)
 {
@@ -7,7 +7,7 @@ static inline bool is_digit (char c)
 
 static inline bool is_space(char c)
 {
-	return (c >= 9 && c <= 13 || c == 32);
+	return ((c >= 9 && c <= 13) || c == 32);
 }
 
 
@@ -34,28 +34,27 @@ static const char *valid_input(const char *str)
 	return (number);
 }
 
-static long ft_atol (char *str)
+static long ft_atol (const char *str)
 {
 	long num;
-	int i;
 
-	i = 0;
+	num = 0;
 	str = valid_input(str);
-	while (is_digit(str[i]))
-		num = (num * 10) + str[i++] - 48;
+	while (is_digit(*str))
+		num = (num * 10) + *str++ - 48;
 	if (num > INT_MAX)
 		error_exit("The number is too big, INT_MAX is the limit.");
 	return (num);
 }
 
 
-void parse_input (t_table table, char **av)
+void parse_input (t_table *table, char **av)
 {
 	table->philo_nbr = ft_atol(av[1]);
 	table->time_to_die = ft_atol(av[2]) * 10e3;
 	table->time_to_eat = ft_atol(av[3]) * 10e3;
 	table->time_to_sleep = ft_atol(av[4]) * 10e3;
-	if (table->time_to_die < 6e4 
+	if (table->time_to_die < 6e4
 	|| table->time_to_eat < 6e4
 	|| table->time_to_sleep < 6e4)
 	error_exit("Use timestamps major than 60ms");

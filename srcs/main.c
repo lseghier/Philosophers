@@ -1,15 +1,15 @@
-#include "philo.h"
+#include "../includes/philo.h"
 
 int main (int ac, char **av)
 {
 	t_table table;
 
-	if (ac < 5 || ac > 6)
+	if (ac == 5 || ac == 6)
 	{
 		//correct input
 		parse_input(&table, av); //OK
 
-		data_init(&table); //OK
+		init_data(&table); //OK
 
 		dinner_start(&table);
 

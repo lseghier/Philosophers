@@ -3,6 +3,8 @@
 void *safe_malloc(size_t byte)
 {
     void *ret;
+
+    ret = malloc(byte);
     if (ret == NULL)
         error_exit("The malloc isn't safe my friend !");
     return (ret);
@@ -12,7 +14,7 @@ static void  handle_mutex_error (int status, t_opcode opcode)
 {
     if (status == 0)
         return ;
-    if (status == EINVAL && opcode == LOCK || opcode == UNLOCK)
+    if ((status == EINVAL && opcode == LOCK) || opcode == UNLOCK)
         error_exit("The value specified by the mutex is invalid.");
     else if (status == EINVAL && opcode == INIT)
         error_exit("The value specified by attr is invalid.");
@@ -26,16 +28,16 @@ static void  handle_mutex_error (int status, t_opcode opcode)
         error_exit("Mutex is already locked");
 }
 
-void *safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
+void safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
 {
     if (opcode == LOCK)
-        handle_exit_error (pthread_mutex_lock(mutex), opcode);
+        handle_mutex_error (pthread_mutex_lock(mutex), opcode);
     else if (opcode == UNLOCK)
-        handle_exit_error (pthread_mutex_unlock(mutex), opcode);
+        handle_mutex_error (pthread_mutex_unlock(mutex), opcode);
     else if (opcode == DESTROY)
-        handle_exit_error (pthread_mutex_destroy(mutex), opcode);
+        handle_mutex_error (pthread_mutex_destroy(mutex), opcode);
     else if (opcode == INIT)
-        handle_exit_error (pthread_mutex_init(mutex, NULL), opcode);
+        handle_mutex_error (pthread_mutex_init(mutex, NULL), opcode);
     else
         error_exit("The mutex isn't safe my friend !");
 }
@@ -50,7 +52,7 @@ static void handle_thread_error(int status, t_opcode opcode)
         error_exit("No permission to set the parameters specified in attr.");
     else if (status == EINVAL && opcode == CREATE)
         error_exit ("The value specified by attr is invalid.");
-    else if (status == EINVAL && opcode == JOIN || opcode == DETACH)
+    else if ((status == EINVAL && opcode == JOIN) || opcode == DETACH)
         error_exit("The value specified by thread is not joinable.");
     else if (status == ESRCH)
         error_exit("No thread could be found corresponding to that");

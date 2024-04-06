@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../includes/philo.h"
 
 void    set_bool (t_mtx *mutex, bool *var, bool value)
 {
@@ -33,7 +33,7 @@ void set_long (t_mtx *mutex, long *value, long new_value)
     safe_mutex_handle(mutex, LOCK);
     *value = new_value;
     safe_mutex_handle(mutex, UNLOCK);
-}   
+}
 
 bool    simulation_finished (t_table *table)
 {
