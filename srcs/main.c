@@ -1,28 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lseghier <lseghier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/07 00:31:33 by lseghier          #+#    #+#             */
+/*   Updated: 2024/04/07 02:58:12 by lseghier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_table table;
+	t_table	table;
 
-	if (ac == 5 || ac == 6)
+	if (5 == ac || 6 == ac)
 	{
-		//correct input
-		parse_input(&table, av); //OK
-
-		init_data(&table); //OK
-
+		parse_input(&table, av);
+		data_init(&table);
 		dinner_start(&table);
-
-		//creer autant de thread que de philos
-		//pthread_create()
-		//creer un observateur
-		//join wait thread
-
 		free_all(&table);
 	}
 	else
 	{
-		error_exit("Wrong input:\n"
-		G"Correct is ./philo 5 800 200 200 [5]"RST);
+		error_exit("Wrong input:\n" G \
+		"Correct is ./philo 5 800 200 200 [5]" RST);
 	}
 }
